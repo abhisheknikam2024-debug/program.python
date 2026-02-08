@@ -7,4 +7,4 @@ Sirname = input("entre yuor last name:")
 print(Name)
 print(Sirname)
 
-print('hello ,',Name , Sirname , '!, welcom to python program.')
+print('hello ,',Name , Sirname , '!, welcom to python program.john')
