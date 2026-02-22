@@ -6,5 +6,6 @@ Name = input("entre your frist name :")
 Sirname = input("entre yuor last name:")
 print(Name)
 print(Sirname)
+fullnamw = Name + ' ' + Sirnsme
 
-print('hello ,',Name , Sirname , '!, welcom to python program.john')
+print('hello ,',fullname , '!, welcom to python program.john')
