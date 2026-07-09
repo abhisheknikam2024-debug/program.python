@@ -1,0 +1,2 @@
+line1:"this is a sample text file."
+line2 : "it cantaim a multiple line." 
