@@ -1,22 +1,16 @@
-# program.pytho
+# program.python
+@implimenting Database using python
+   - by using python programming language create a database table on sql
 
-Tinker GUI cslculator application 
-  @feature 
-  - numeric keypad : buton to  input  number 0 to 9
-  - basic arithmatic operation 
-   1. addition
-   2. subtraction
-   3. multiplication
-   4. division 
-  - cantrol function 
-   1. equal : compute and display the result 
-   2. clear : reset or clear the display enrty box
-
- - code overvier 
-  1. main window set up : configur 500x500 pixel window (Tk()).
-  2. input field : use a tkinter .entry widget  to display input value and calculate result.
-  3. event collback : 
-      - click (num): display the number in display 
-      - add(),sub(),mul(),div() : operator to perfrom oparation 
-      - equal (): perform the calculation according to  the opertor and outputs the result
-      - clear (): clear the display 
+   - performming opration like 
+     1.  create a table using CREATE  query
+     2. insert data on it using INSERT query
+     3. ask for user to input 
+     4. execute the values / show the table
+     5. use sSELECT query with WHERE candition 
+     6. error handling 
+     7. use TRUNKET function to delete table
+   
+   - to cannect python to sql import psycopg2 on it
+      by using terminal its download frist
+      
