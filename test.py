@@ -1,58 +1,92 @@
+
+
 import psycopg2
 
-conn = psycopg2.connect(dbname= "postgres", user ="postgres",password="abhi123",host="localhost",port="5432")
-print("cannect succussfully")
-# creating a connection between dbms and python language
-
-#creating a table
-def Table():
-    conn = psycopg2.connect(dbname= "postgres", user ="postgres",password="abhi123",host="localhost",port="5432")
-
+# ==========================================
+# 1. CONNECT TO POSTGRESQL DATABASE
+# ==========================================
+try:
+    conn = psycopg2.connect(
+        dbname="postgres",     # Default PostgreSQL database
+        user="postgres",       # Your database username
+        password="abhi123",    # Your database password
+        host="localhost",
+        port="5432"
+    )
     cursor = conn.cursor()
-    cursor.execute('''create  table employee(Name text,ID int,age int);''')
-    print("table created")
+    print("✓ Successfully connected to PostgreSQL database.")
+
+    # ==========================================
+    # 2. CREATE A TABLE
+    # ==========================================
+    create_table_query = """
+    CREATE TABLE IF NOT EXISTS students (
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(50) NOT NULL,
+        age INT NOT NULL,
+        course VARCHAR(50) NOT NULL
+    );
+    """
+    cursor.execute(create_table_query)
     conn.commit()
-    
+    print("✓ Table 'students' created successfully.")
 
-#insert data into table    
-def Data():
-    conn = psycopg2.connect(dbname= "postgres", user ="postgres",password="abhi123",host="localhost",port="5432")
-
- #to take input from user
-    name = input("entre the name:")
-    id = input('entre id:')
-    age = input('entre age:')
-
-    query= '''insert into employee(Name,ID,age) values(%s ,%s,%s);'''
-    cursor.execute(query,(name,id,age))
-    print("data added successfully")
+    # ==========================================
+    # 3. INSERT HARDCODED DATA
+    # ==========================================
+    insert_query = """
+    INSERT INTO students (name, age, course) 
+    VALUES ('Abhi', 22, 'Python Development');
+    """
+    cursor.execute(insert_query)
     conn.commit()
+    print("✓ Initial record inserted successfully.")
+
+    # ==========================================
+    # 4. INSERT DYNAMIC DATA (Parameterized Query)
+    # ==========================================
+    print("\n--- Enter New Student Details ---")
+    user_name = input("Enter Name: ")
+    user_age = int(input("Enter Age: "))
+    user_course = input("Enter Course: ")
+
+    # Use %s placeholders for parameterized queries (prevents SQL injection)
+    dynamic_insert = """
+    INSERT INTO students (name, age, course) 
+    VALUES (%s, %s, %s);
+    """
+    cursor.execute(dynamic_insert, (user_name, user_age, user_course))
+    conn.commit()
+    print("✓ Dynamic record inserted successfully.")
+
+    # ==========================================
+    # 5. FETCH & DISPLAY ALL RECORDS (fetchone)
+    # ==========================================
+    print("\n--- Fetching First Record using fetchone() ---")
+    cursor.execute("SELECT * FROM students;")
+    single_record = cursor.fetchone()
+    print("First Record:", single_record)
+
+    # ==========================================
+    # 6. SELECT WITH WHERE CONDITION
+    # ==========================================
+    print("\n--- Fetching Records with WHERE Condition (age > 20) ---")
+    where_query = "SELECT * FROM students WHERE age > %s;"
+    cursor.execute(where_query, (20,))
+    filtered_records = cursor.fetchall()
     
+    print("Matching Records:")
+    for row in filtered_records:
+        print(f"ID: {row[0]} | Name: {row[1]} | Age: {row[2]} | Course: {row[3]}")
 
-
-# fetch and display all record
-cursor = conn.cursor()
-cursor.execute("select * from employee ; ")
-single_record = cursor.fetchone()
-print("Frist record :", single_record)
-
-# select with where candition
-print("\n --- fetching records with WHERE candition (age >20)---" )
-where_query = "select * from employee WHERE age>%s;"
-cursor.execute(where_query , (20,))
-fil_record  = cursor.fetchall()
-
-print("mathching record:")
-for row in fil_record:
-    print(f"ID: {row[0]} | Name : {row[1]} | age:{row[2]}")
-
-# trucate table
-
-cursor = conn.cursor()
-cursor.execute("truncate table employee;")
+    # ==========================================
+    # 7. TRUNCATE TABLE (Clean up table data)
+    # ==========================================
+    print("\n--- Performing TRUNCATE Operation ---")
+    cursor.execute("TRUNCATE TABLE students;")
+    conn.commit()
+    print("✓ Table 'students' truncated successfully.")
 
 except Exception as error:
-    print (" an erroroccure")
+    print("An error occurred during database operations:", error)
 
-conn.commit()
-conn.close()
