@@ -38,14 +38,14 @@ try:
     print(" Dynamic record inserted successfully.")
     # user input given to create
 
-    cursor.execute("SELECT * FROM students;")
+    cursor.execute("SELECT * FROM boys;")
     single_record = cursor.fetchone()
     print("First Record:", single_record)
 
     # display all record
 
     print("\n--- Fetching Records with WHERE Condition (age > 20) ---")
-    where_query = "SELECT * FROM students WHERE age > %s;"
+    where_query = "SELECT * FROM boys WHERE age > %s;"
     cursor.execute(where_query, (20,))
     filtered_records = cursor.fetchall()
     
