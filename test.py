@@ -7,7 +7,7 @@ try:
 
 
     create_table_query = """
-        CREATE TABLE boys(id INT,name VARCHAR(50),age INT NOT NULL,course VARCHAR(50));
+        CREATE TABLE IF NOT EXISTS boys(id INT,name VARCHAR(50),age INT NOT NULL,course VARCHAR(50));
         """
     cursor.execute(create_table_query)
     conn.commit()
@@ -35,7 +35,9 @@ try:
         """
     cursor.execute(dynamic_insert, (user_name, user_age, user_course))
     conn.commit()
+    
     print(" Dynamic record inserted successfully.")
+    
     # user input given to create
 
     cursor.execute("SELECT * FROM boys;")
@@ -59,7 +61,7 @@ try:
     conn.cursor()
     print("truncate tsble successfully")
 
-
+    conn.close()
 
 except Exception as error :
     print("an error occure")
